@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setup3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cff.mobilesafe.activity.Setup3Activity">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="3.设置安全号码"/>
+    <TextView
+        android:text="SIM卡变更后"
+        style="@style/ContentStyle"/>
+    <TextView
+        android:text="报警短信会发送给安全号码"
+        style="@style/ContentStyle"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入获取悬着安全号码"
+        android:id="@+id/etPhoneNum"
+        android:inputType="phone"/><!--数字键盘-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_light_green_selector"
+        android:text="获取联系人信息"
+        android:id="@+id/btGetContacts" />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_above="@+id/btSetup3Next">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_online" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setup3"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/btSetup3Next"
+            android:drawableRight="@mipmap/next"
+            android:text="下一步"
+            style="@style/NextStyle"
+            android:onClick="next"
+            android:background="@drawable/bt_green_selector"/>
+
+        <Button
+            android:drawableRight="@mipmap/previous"
+            android:text="上一步"
+            style="@style/PreviousStyle"
+            android:onClick="previous"
+            android:background="@drawable/bt_green_selector"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

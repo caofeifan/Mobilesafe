@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cff="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setup2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cff.mobilesafe.activity.Setup2Activity">
+
+    <TextView
+        style="@style/TitleStyle"
+        android:text="2.手机卡绑定"/>
+
+    <TextView
+        android:text="通过绑定SIM卡："
+        style="@style/ContentStyle"/>
+    <TextView
+        android:text="下次重启手机如果发现SIM卡变化"
+        style="@style/ContentStyle"/>
+    <TextView
+        android:text="就会发送报警短信"
+        style="@style/ContentStyle"/>
+    <com.cff.mobilesafe.view.SettingItemView
+        android:id="@+id/sivSIM"
+        cff:title="点击绑定SIM卡"
+        cff:desc_on="SIM已经绑定"
+        cff:desc_off="SIM没有绑定"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_above="@+id/btSetup2Next">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_online" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/setup2"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/btSetup2Next"
+            android:drawableRight="@mipmap/next"
+            android:text="下一步"
+            style="@style/NextStyle"
+            android:onClick="next"
+            android:background="@drawable/bt_green_selector"/>
+
+        <Button
+            android:drawableRight="@mipmap/previous"
+            android:text="上一步"
+            style="@style/PreviousStyle"
+            android:onClick="previous"
+            android:background="@drawable/bt_green_selector"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
