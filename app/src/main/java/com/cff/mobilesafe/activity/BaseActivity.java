@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
@@ -19,6 +20,7 @@ import static android.R.attr.permission;
 import static android.R.attr.targetSdkVersion;
 
 public class BaseActivity extends AppCompatActivity {
+    private static final String TAG = BaseActivity.class.getSimpleName();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
