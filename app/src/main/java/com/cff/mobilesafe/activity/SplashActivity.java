@@ -6,19 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,25 +27,13 @@ import com.cff.mobilesafe.utils.JsonUtil;
 import com.cff.mobilesafe.utils.MyDatabaseHelper;
 import com.cff.mobilesafe.utils.OkHttpUtil;
 import com.cff.mobilesafe.utils.StreamUtil;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import butterknife.BindView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class SplashActivity extends BaseActivity {
     private String TAG = this.getClass().getSimpleName();
@@ -135,9 +120,6 @@ public class SplashActivity extends BaseActivity {
         }else {
             mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME,2000);
         }
-        //检查数据库
-        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this,"address.db",null,1);
-        dbHelper.readToPath();
         //渐变的动画
         AlphaAnimation anim = new AlphaAnimation(0.3f,1f);
         anim.setDuration(1000);

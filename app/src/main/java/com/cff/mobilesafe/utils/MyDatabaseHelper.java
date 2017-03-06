@@ -20,13 +20,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MyDatabaseHelper.class.getSimpleName();
     Context context;
 
+
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        this.context = context;
-    }
-
-    public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
         this.context = context;
     }
 
@@ -77,6 +73,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }else {
             Log.i(TAG, "readToPath: 数据库文件已存在");
         }
+
+
+
+    }
+
+    public void rawQuery(){
 
     }
 }
