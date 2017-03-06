@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
@@ -79,5 +80,15 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void showToast(String str){
         Toast.makeText(this, str,Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 手机震动
+     */
+    public void vibrate(){
+        //振动器
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(2000);
+        vibrator.vibrate(new long[]{1000,2000,1000,3000,1000,4000},-1);//等待1秒，震动后面的秒数，重复一次。第二个参数表示从第几个数开始循环
     }
 }

@@ -17,5 +17,12 @@
         cff:desc_off="自动更新已关闭"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.cff.mobilesafe.view.SettingItemView
+        android:id="@+id/sivAddress"
+        cff:title="电话归属地显示设置"
+        cff:desc_on="归属地显示已开启"
+        cff:desc_off="归属地显示已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

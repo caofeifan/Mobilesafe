@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -66,6 +68,10 @@ public class AddressActivity extends BaseActivity {
             tvResult.setText(address);
         }else {
             showToast("电话号码不能为空");
+            Animation anim = AnimationUtils.loadAnimation(AddressActivity.this,R.anim.shake);
+            etNum.startAnimation(anim);
+            vibrate();
+            System.out.println("-------------------------");
         }
     }
 }
