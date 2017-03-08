@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE"/><!--振动器-->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/><!--去电显示-->
 
     <application
         android:allowBackup="true"
@@ -38,6 +39,17 @@
         <activity android:name=".activity.Setup2Activity" />
         <activity android:name=".activity.Setup3Activity" />
         <activity android:name=".activity.Setup4Activity" />
+
+
+
+        <activity android:name=".activity.ContactActivity" />
+
+
+
+        <activity android:name=".activity.TransparentActivity" />
+        <activity android:name=".activity.AToolsActivity" />
+        <activity android:name=".activity.AddressActivity"></activity>
+
 
         <!-- 开启启动 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
@@ -64,14 +76,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.ContactActivity" />
+        <!--<receiver android:name=".receiver.OutCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>-->
+
+
 
         <service android:name=".service.LocationService" />
         <service android:name=".service.AddressService"/>
-
-        <activity android:name=".activity.TransparentActivity" />
-        <activity android:name=".activity.AToolsActivity" />
-        <activity android:name=".activity.AddressActivity"></activity>
     </application>
 
 </manifest>

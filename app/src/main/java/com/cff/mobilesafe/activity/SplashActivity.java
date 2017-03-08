@@ -22,9 +22,7 @@ import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.domain.UpdateInfo;
-import com.cff.mobilesafe.domain.test;
 import com.cff.mobilesafe.utils.JsonUtil;
-import com.cff.mobilesafe.utils.MyDatabaseHelper;
 import com.cff.mobilesafe.utils.OkHttpUtil;
 import com.cff.mobilesafe.utils.StreamUtil;
 
@@ -112,6 +110,7 @@ public class SplashActivity extends BaseActivity {
         mPref = getSharedPreferences("config",MODE_PRIVATE);
         boolean autoUpdate = mPref.getBoolean("auto_update",true);
         Log.i(TAG, "onCreate: autoUpdate = "+ autoUpdate);
+        verifyStoragePermissions(SplashActivity.this,Manifest.permission.PROCESS_OUTGOING_CALLS);
         if (autoUpdate){
             /**
              * 获取应用版本号
