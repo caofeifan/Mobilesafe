@@ -15,9 +15,10 @@
     <!-- GSP定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE"/><!--振动器-->
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/><!--去电显示-->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 振动器 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
+    <!-- 去电显示 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.LostFindActivity" />
@@ -39,17 +40,10 @@
         <activity android:name=".activity.Setup2Activity" />
         <activity android:name=".activity.Setup3Activity" />
         <activity android:name=".activity.Setup4Activity" />
-
-
-
         <activity android:name=".activity.ContactActivity" />
-
-
-
         <activity android:name=".activity.TransparentActivity" />
         <activity android:name=".activity.AToolsActivity" />
-        <activity android:name=".activity.AddressActivity"></activity>
-
+        <activity android:name=".activity.AddressActivity" />
 
         <!-- 开启启动 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
@@ -76,16 +70,17 @@
             </intent-filter>
         </receiver>
 
-        <!--<receiver android:name=".receiver.OutCallReceiver">
+        <!--
+        <receiver android:name=".receiver.OutCallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
             </intent-filter>
-        </receiver>-->
-
-
+        </receiver>
+        -->
 
         <service android:name=".service.LocationService" />
-        <service android:name=".service.AddressService"/>
+        <service android:name=".service.AddressService" />
+
     </application>
 
 </manifest>

@@ -71,7 +71,7 @@ public class AddressActivity extends BaseActivity {
             Animation anim = AnimationUtils.loadAnimation(AddressActivity.this,R.anim.shake);
             etNum.startAnimation(anim);
             vibrate();
-            System.out.println("-------------------------");
+
         }
     }
 }

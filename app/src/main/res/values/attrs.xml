@@ -5,4 +5,9 @@
         <attr name="desc_on" format="string" />
         <attr name="desc_off" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="SettingClickView">
+        <!--<attr name="title" format="string"/>-->
+        <attr name="currentStyle" format="string" />
+    </declare-styleable>
 </resources>

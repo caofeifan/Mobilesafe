@@ -95,6 +95,9 @@ public class AddressService extends Service {
      * 自定义
      */
     public void showMyToast(String text){
+        int style = mPref.getInt("currentStyle",0);
+        int[] items = new int[]{R.drawable.call_locate_white,R.drawable.call_locate_orange,
+                R.drawable.call_locate_blue,R.drawable.call_locate_green};
         WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
         wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         final WindowManager.LayoutParams params = mParams;
@@ -107,7 +110,9 @@ public class AddressService extends Service {
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
 
+
         view = View.inflate(this,R.layout.mytoast,null);
+        view.setBackgroundResource(items[style]);
         TextView tvMyToast = (TextView) view.findViewById(R.id.tvMyToast);
         tvMyToast.setText(text);
         wm.addView(view,params);

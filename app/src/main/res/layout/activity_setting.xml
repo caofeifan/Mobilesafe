@@ -26,9 +26,8 @@
         android:layout_height="wrap_content"/>
     <com.cff.mobilesafe.view.SettingClickView
         android:id="@+id/scvStyle"
-        cff:title="电话归属地显示设置"
-        cff:desc_on="归属地显示已开启"
-        cff:desc_off="归属地显示已关闭"
+        cff:title="电话归属地显示风格设置"
+        cff:currentStyle=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

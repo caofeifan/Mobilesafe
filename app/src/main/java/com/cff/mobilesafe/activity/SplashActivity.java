@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.domain.UpdateInfo;
+import com.cff.mobilesafe.domain.test;
 import com.cff.mobilesafe.utils.JsonUtil;
 import com.cff.mobilesafe.utils.OkHttpUtil;
 import com.cff.mobilesafe.utils.StreamUtil;

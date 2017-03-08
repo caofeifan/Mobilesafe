@@ -21,17 +21,15 @@ import butterknife.ButterKnife;
 public class SettingClickView extends RelativeLayout {
     private static final String TAG = SettingClickView.class.getSimpleName();
     private final String NAMESPACE = "http://schemas.android.com/apk/res-auto";
-    @BindView(R.id.tvTitle)
-    TextView tvTitle;
-    @BindView(R.id.tvDesc)
-    TextView tvDesc;
-    @BindView(R.id.cbState)
-    CheckBox cbState;
+    @BindView(R.id.tvStyleSet)
+    TextView tvStyleSet;
+    @BindView(R.id.tvCurrentStyle)
+    TextView tvCurrentStyle;
+    private String mTitle;
+    private String mCurrentStyle;
+
     View view;
 
-    private String mTitle;
-    private String mDescOn;
-    private String mDescOff;
     public SettingClickView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -42,9 +40,9 @@ public class SettingClickView extends RelativeLayout {
             String attributeValue = attrs.getAttributeValue(i);
             Log.i(TAG, "SettingItemView: "+attributeName+"="+attributeValue);
         }
-        mTitle = attrs.getAttributeValue(NAMESPACE,"title");//根据属性名称获取属性值
+/*        mTitle = attrs.getAttributeValue(NAMESPACE,"title");//根据属性名称获取属性值
         mDescOn = attrs.getAttributeValue(NAMESPACE,"desc_on");//根据属性名称获取属性值
-        mDescOff = attrs.getAttributeValue(NAMESPACE,"desc_off");//根据属性名称获取属性值
+        mDescOff = attrs.getAttributeValue(NAMESPACE,"desc_off");//根据属性名称获取属性值*/
         initView();
     }
 
@@ -56,10 +54,10 @@ public class SettingClickView extends RelativeLayout {
             String attributeValue = attrs.getAttributeValue(i);
             Log.i(TAG, "SettingItemView: "+attributeName+"="+attributeValue);
         }
-        mTitle = attrs.getAttributeValue(NAMESPACE,"title");//根据属性名称获取属性值
-        mDescOn = attrs.getAttributeValue(NAMESPACE,"desc_on");//根据属性名称获取属性值
-        mDescOff = attrs.getAttributeValue(NAMESPACE,"desc_off");//根据属性名称获取属性值
+        mTitle = attrs.getAttributeValue(NAMESPACE,"title");
+        mCurrentStyle = attrs.getAttributeValue(NAMESPACE,"currentStyle");
         initView();
+        setTvTitle(mTitle);
     }
 
     public SettingClickView(Context context) {
@@ -72,29 +70,18 @@ public class SettingClickView extends RelativeLayout {
      */
     private void initView(){
         //将自定义的布局文件设置给当前settingItemView
-        view = View.inflate(getContext(), R.layout.view_setting_item,this);
+        view = View.inflate(getContext(), R.layout.view_setting_item2,this);
         ButterKnife.bind(view);
-        setTvTitle(mTitle);
+
     }
 
     public void setTvTitle(String title) {
-        tvTitle.setText(title);
+        tvStyleSet.setText(title);
     }
 
-    public void setTvDesc(String desc) {
-        tvDesc.setText(desc);
+    public void setCurrentStyle(String currentStyle) {
+        tvCurrentStyle.setText(currentStyle);
     }
 
-    public void setChecked(boolean state) {
-        cbState.setChecked(state);
-        if (state){
-            setTvDesc(mDescOn);
-        }else {
-            setTvDesc(mDescOff);
-        }
-    }
 
-    public boolean isChecked(){
-        return cbState.isChecked();
-    }
 }
