@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cff.mobilesafe.R;
+import com.cff.mobilesafe.listener.OnRecyclerViewItemClickListener;
 
 import java.util.List;
 import java.util.Map;
@@ -75,9 +76,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //define interface
-    public static interface OnRecyclerViewItemClickListener {
+    /*public static interface OnRecyclerViewItemClickListener {
         void onItemClick(View view , String data);
-    }
+    }*/
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }

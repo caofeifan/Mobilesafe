@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="曹飞帆"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:id="@+id/tv_name"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13022807887"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:id="@+id/tv_number"
+        android:layout_below="@id/tv_name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/tv_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="电话拦截"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@id/iv_delete"
+        android:layout_marginRight="8dp" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/iv_delete_selector"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"/>
+
+</RelativeLayout>

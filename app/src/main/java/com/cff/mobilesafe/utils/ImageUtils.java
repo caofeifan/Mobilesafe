@@ -1,5 +1,13 @@
 package com.cff.mobilesafe.utils;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,4 +200,119 @@ public class ImageUtils {
         return value;
 
     }
+
+    /*******图片缩放剪裁和形变*******/
+
+    /**
+     * 放大缩小图片，不保证宽高比
+     *
+     * @Title: zoomBitmap
+     * @param @param bitmap
+     * @param @param w
+     * @param @param h
+     * @return Bitmap
+     * @throws
+     */
+    public static   Bitmap zoomBitmap(Bitmap bitmap, int w, int h) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidht = ((float) w / width);
+        float scaleHeight = ((float) h / height);
+        matrix.postScale(scaleWidht, scaleHeight);
+        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        bitmap.recycle();
+        bitmap = null;
+        return newbmp;
+    }
+
+    /**
+     * @brief 缩放Bitmap
+     * @param src 源Bitmap
+     * @param dstWidth 目标宽度
+     * @param dstHeight 目标高度
+     * @param isRecycle 是否回收原图像
+     * @return Bitmap
+     */
+    public static Bitmap scaleBitmap(Bitmap src, int dstWidth, int dstHeight, boolean isRecycle) {
+        if (src.getWidth() == dstWidth && src.getHeight() == dstHeight) {
+            return src;
+        }
+        Bitmap dst = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, false);
+        if (isRecycle && dst != src) {
+            src.recycle();
+        }
+        return dst;
+    }
+
+    //放大缩小图片，生成缩略图
+    public static Bitmap extractThumbnail(Bitmap src, int width, int height) {
+        return ThumbnailUtils.extractThumbnail(src, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+    }
+
+    /**
+     * @brief 裁剪Bitmap
+     * @param src 源Bitmap
+     * @param x 开始x坐标
+     * @param y 开始y坐标
+     * @param width 截取宽度
+     * @param height 截取高度
+     * @param isRecycle 是否回收原图像
+     * @return Bitmap
+     */
+    public static Bitmap cropBitmap(Bitmap src, int x, int y, int width, int height, boolean isRecycle) {
+        if (x == 0 && y == 0 && width == src.getWidth() && height == src.getHeight()) {
+            return src;
+        }
+        Bitmap dst = Bitmap.createBitmap(src, x, y, width, height);
+        if (isRecycle && dst != src) {
+            src.recycle();
+        }
+        return dst;
+    }
+
+    /***
+     * 图片分割
+     *
+     * @param g
+     * ：画布
+     * @param paint
+     * ：画笔
+     * @param imgBit
+     * ：图片
+     * @param x
+     * ：X轴起点坐标
+     * @param y
+     * ：Y轴起点坐标
+     * @param w
+     * ：单一图片的宽度
+     * @param h
+     * ：单一图片的高度
+     * @param line
+     * ：第几列
+     * @param row
+     * ：第几行
+     */
+
+    public final void cuteImage(Canvas g, Paint paint, Bitmap imgBit, int x,
+                                int y, int w, int h, int line, int row) {
+        g.clipRect(x, y, x + w, h + y);
+        g.drawBitmap(imgBit, x - line * w, y - row * h, paint);
+        g.restore();
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable){
+        Bitmap bitmap;
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888: Bitmap.Config.RGB_565;
+        bitmap = Bitmap.createBitmap(w,h,config);
+        //注意，下面三行代码要用到，否在在View或者surfaceview里的canvas.drawBitmap会看不到图
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
 }

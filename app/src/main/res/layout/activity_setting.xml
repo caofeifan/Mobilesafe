@@ -24,9 +24,30 @@
         cff:desc_off="归属地显示已关闭"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <com.cff.mobilesafe.view.SettingItemView
+        android:id="@+id/sivBlackNum"
+        cff:title="黑名单设置"
+        cff:desc_on="屏蔽黑名单已开启"
+        cff:desc_off="屏蔽黑名单已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.cff.mobilesafe.view.SettingClickView
         android:id="@+id/scvStyle"
         cff:title="电话归属地显示风格设置"
+        cff:currentStyle=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.cff.mobilesafe.view.SettingClickView
+        android:id="@+id/scvLocation"
+        cff:title="归属地显示位置"
+        cff:currentStyle=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.cff.mobilesafe.view.SettingClickView
+        android:id="@+id/scvSocket"
+        cff:title="显示小火箭"
         cff:currentStyle=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

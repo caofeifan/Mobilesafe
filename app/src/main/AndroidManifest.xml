@@ -17,7 +17,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 振动器 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+
+    <!-- 获取系统窗口权限 -->
     <!-- 去电显示 -->
     <application
         android:allowBackup="true"
@@ -44,6 +50,9 @@
         <activity android:name=".activity.TransparentActivity" />
         <activity android:name=".activity.AToolsActivity" />
         <activity android:name=".activity.AddressActivity" />
+        <activity
+            android:name=".activity.DragViewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 开启启动 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
@@ -80,7 +89,15 @@
 
         <service android:name=".service.LocationService" />
         <service android:name=".service.AddressService" />
+        <service
+            android:name=".service.RocketService"
+            android:enabled="true"
+            android:exported="true" />
+        <service android:name=".service.CallSafeService" />
 
+        <activity android:name=".activity.BackgroundActivity" />
+        <activity android:name=".activity.CallSafeActivity" />
+        <activity android:name=".activity.AppManagerActivity"></activity>
     </application>
 
 </manifest>

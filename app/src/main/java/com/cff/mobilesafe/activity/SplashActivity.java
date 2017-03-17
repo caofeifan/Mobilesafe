@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.domain.UpdateInfo;
 import com.cff.mobilesafe.domain.test;
+import com.cff.mobilesafe.service.RocketService;
 import com.cff.mobilesafe.utils.JsonUtil;
 import com.cff.mobilesafe.utils.OkHttpUtil;
 import com.cff.mobilesafe.utils.StreamUtil;
@@ -45,6 +49,7 @@ public class SplashActivity extends BaseActivity {
     public static final int CODE_DOWNLOAD = 6;
     public static final int CODE_DOWNLOAD_FINISHED = 7;
     public static final int REQUEST_CODE_CANCEL_INSTALL = 8;
+
 
     private SharedPreferences mPref;
     private String mVersionName;
@@ -98,6 +103,7 @@ public class SplashActivity extends BaseActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +118,7 @@ public class SplashActivity extends BaseActivity {
         boolean autoUpdate = mPref.getBoolean("auto_update",true);
         Log.i(TAG, "onCreate: autoUpdate = "+ autoUpdate);
         verifyStoragePermissions(SplashActivity.this,Manifest.permission.PROCESS_OUTGOING_CALLS);
+
         if (autoUpdate){
             /**
              * 获取应用版本号
@@ -264,6 +271,7 @@ public class SplashActivity extends BaseActivity {
         startActivityForResult(intent,REQUEST_CODE_CANCEL_INSTALL);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
@@ -272,7 +280,10 @@ public class SplashActivity extends BaseActivity {
                 Log.i(TAG, "onActivityResult: 返回主界面");
                 enterTargetActivity(SplashActivity.this,HomeActivity.class);
                 break;
+
             default:break;
         }
     }
+
+
 }

@@ -29,7 +29,11 @@ public class BaseActivity extends AppCompatActivity {
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.SEND_SMS,
-            Manifest.permission.RECEIVE_SMS};
+            Manifest.permission.RECEIVE_SMS,
+            Manifest.permission.SYSTEM_ALERT_WINDOW,
+            Manifest.permission.CALL_PHONE,
+    Manifest.permission.READ_CALL_LOG,
+    Manifest.permission.WRITE_CALL_LOG};
 
     public SharedPreferences mPref;
 

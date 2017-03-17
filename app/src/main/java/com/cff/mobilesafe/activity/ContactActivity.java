@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.adapter.ContactsAdapter;
+import com.cff.mobilesafe.listener.OnRecyclerViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class ContactActivity extends BaseActivity {
         rvContact.setLayoutManager(mLayoutManager);
         rvContact.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new ContactsAdapter.OnRecyclerViewItemClickListener() {
+        mAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, String data) {
                 Intent intent = new Intent();

@@ -2,16 +2,19 @@ package com.cff.mobilesafe.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.BinderThread;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.service.AddressService;
+import com.cff.mobilesafe.service.CallSafeService;
+import com.cff.mobilesafe.service.RocketService;
 import com.cff.mobilesafe.view.SettingClickView;
 import com.cff.mobilesafe.view.SettingItemView;
 
@@ -21,6 +24,7 @@ import butterknife.ButterKnife;
 public class SettingActivity extends BaseActivity {
     private static final String TAG = SettingActivity.class.getSimpleName();
     private static final int CODE_REQUEST_STYLE = 001;
+    private static final int REQUEST_CODE = 1;
 
     String[] items = new String[]{"半透明","活力橙","卫士蓝","苹果绿"};
     @BindView(R.id.sivUpdate)
@@ -29,6 +33,17 @@ public class SettingActivity extends BaseActivity {
     SettingItemView sivAddress;
     @BindView(R.id.scvStyle)
     SettingClickView scvStyle;
+    @BindView(R.id.scvLocation)
+    SettingClickView scvLocation;
+    @BindView(R.id.scvSocket)
+    SettingClickView scvSocket;
+    @BindView(R.id.sivBlackNum)
+    SettingItemView sivBlackNumberInfo;
+
+
+
+    boolean showSocket;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +54,9 @@ public class SettingActivity extends BaseActivity {
         initUpdateView();
         initAddressView();
         initAddressStyleView();
-
+        initAddressLocation();
+        initSocket();
+        initBlackNumInfo();
     }
 
     /**
@@ -79,6 +96,7 @@ public class SettingActivity extends BaseActivity {
             sivAddress.setChecked(false);
         }
         sivAddress.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (sivAddress.isChecked()){
@@ -93,6 +111,33 @@ public class SettingActivity extends BaseActivity {
             }
         });
     }
+    /**
+     * 初始化黑名单显示
+     */
+    public void initBlackNumInfo(){
+        boolean showBlackNumberInfo = mPref.getBoolean("show_blackNumberInfo", true);
+        if (showBlackNumberInfo) {
+            sivBlackNumberInfo.setChecked(true);
+        } else {
+            sivBlackNumberInfo.setChecked(false);
+        }
+        sivBlackNumberInfo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (sivBlackNumberInfo.isChecked()){
+                    sivBlackNumberInfo.setChecked(false);
+                    stopService(new Intent(SettingActivity.this, CallSafeService.class));
+                    mPref.edit().putBoolean("show_blackNumberInfo",false).commit();
+                }else {
+                    sivBlackNumberInfo.setChecked(true);
+                    startService(new Intent(SettingActivity.this, CallSafeService.class));
+                    mPref.edit().putBoolean("show_blackNumberInfo",true).commit();
+                }
+            }
+        });
+    }
+
 
     public void initAddressStyleView(){
         int selected = mPref.getInt("currentStyle",0);
@@ -101,6 +146,60 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 showSimgleChooseDialog();
+            }
+        });
+    }
+
+    public void initAddressLocation(){
+        scvLocation.setTvTitle("归属地提示框显示位置");
+        scvLocation.setCurrentStyle("设置归属地提示框的显示位置");
+        scvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterTargetActivity(SettingActivity.this,DragViewActivity.class);
+            }
+        });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void initSocket(){
+        showSocket= mPref.getBoolean("show_socket",false);
+
+        if (showSocket){//开启火箭
+            scvSocket.setTvTitle("关闭小火箭");
+            scvSocket.setCurrentStyle("开启状态");
+            //判断特殊权限
+            if (!Settings.canDrawOverlays(SettingActivity.this)){
+                requestAlertWindowPermission();
+            }else {
+                startService(new Intent(SettingActivity.this, RocketService.class));
+            }
+        }else {
+            scvSocket.setTvTitle("开启小火箭");
+            scvSocket.setCurrentStyle("关闭状态");
+        }
+
+        scvSocket.setOnClickListener(new View.OnClickListener() {
+            
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: --------------------------"+showSocket);
+                if (showSocket){//关闭小火箭,关闭Service
+                    stopService(new Intent(SettingActivity.this, RocketService.class));
+                    mPref.edit().putBoolean("show_socket", false).commit();
+                    showSocket = false;
+                }else {
+                    //判断特殊权限
+                    if (!Settings.canDrawOverlays(SettingActivity.this)){
+                        requestAlertWindowPermission();
+                    }else {
+                        startService(new Intent(SettingActivity.this, RocketService.class));
+                    }
+                    mPref.edit().putBoolean("show_socket", true).commit();
+                    showSocket = true;
+                }
+
+
             }
         });
     }
@@ -124,6 +223,23 @@ public class SettingActivity extends BaseActivity {
     }
 
 
+    private  void requestAlertWindowPermission() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent, REQUEST_CODE);
+    }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE:
+                if (Settings.canDrawOverlays(this)){
+                    startService(new Intent(SettingActivity.this, RocketService.class));
+                }
+                break;
+            default:break;
+        }
+    }
 }

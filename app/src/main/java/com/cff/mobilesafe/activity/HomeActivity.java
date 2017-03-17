@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.service.LocationService;
+import com.cff.mobilesafe.service.RocketService;
 import com.cff.mobilesafe.utils.CommonUtil;
 
 import butterknife.BindView;
@@ -47,9 +48,13 @@ public class HomeActivity extends BaseActivity {
         //检查权限，android6.0必须检查
         verifyStoragePermissions(HomeActivity.this, Manifest.permission.SEND_SMS);
         verifyStoragePermissions(HomeActivity.this, Manifest.permission.RECEIVE_SMS);
+        verifyStoragePermissions(HomeActivity.this, Manifest.permission.CALL_PHONE);
+        verifyStoragePermissions(HomeActivity.this, Manifest.permission.READ_CALL_LOG);
+        verifyStoragePermissions(HomeActivity.this, Manifest.permission.WRITE_CALL_LOG);
         mPref = getSharedPreferences("config",MODE_PRIVATE);
 
         startService(new Intent(HomeActivity.this, LocationService.class));
+
         gvHome.setAdapter(new HomeAdapter());
         gvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,9 +72,13 @@ public class HomeActivity extends BaseActivity {
                     case 5:break;
                     case 4:break;
                     case 3:break;
-                    case 2:break;
+                    case 2:
+                        //进入软件管理页面
+                        enterTargetActivity(HomeActivity.this,AppManagerActivity.class);
+                        break;
                     case 1:
-
+                        //进入通信卫士页面
+                        enterTargetActivity(HomeActivity.this,CallSafeActivity.class);
                         break;
                     case 0:
                         showPwdDialog();

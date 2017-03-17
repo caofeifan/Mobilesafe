@@ -20,6 +20,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MyDatabaseHelper.class.getSimpleName();
     Context context;
 
+    public MyDatabaseHelper(Context context) {
+        super(context, "address.db",null, 1);
+        this.context = context;
+    }
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -29,6 +33,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table dict(id Integer primary key autoincrement, word,detail)");
+        db.execSQL("create table blacknumber(_id integer primary key autoincrement,name varchar(20),number varchar(20),mode varchar(2))");
     }
 
     @Override
