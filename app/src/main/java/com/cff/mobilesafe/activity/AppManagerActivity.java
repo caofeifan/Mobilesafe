@@ -203,7 +203,7 @@ public class AppManagerActivity extends BaseActivity implements View.OnClickList
         popupWindow.showAtLocation(view, Gravity.LEFT+Gravity.TOP,200,location[1]-100);
 
         //设置背景
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        /*popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));*/
         ScaleAnimation sa = new ScaleAnimation(0.5f,1.0f,0.5f,1.0f,
                 Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         sa.setDuration(500);
@@ -294,12 +294,6 @@ public class AppManagerActivity extends BaseActivity implements View.OnClickList
     public void unInstall(){
 
         if (clickAppInfo.isUserApp()) {
-            /*Intent intent = new Intent();
-            intent.setAction("android.intent.action.VIEW");
-            intent.addCategory("android.intent.category.DEFAULT");
-            intent.setData(Uri.parse("package:"+clickAppInfo.getApkPackageName()));
-
-            startActivity(intent);*/
 
             Intent uninstall_intent = new Intent();
             uninstall_intent.setAction(Intent.ACTION_DELETE);

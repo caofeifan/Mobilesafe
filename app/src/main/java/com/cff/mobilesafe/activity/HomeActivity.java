@@ -51,6 +51,7 @@ public class HomeActivity extends BaseActivity {
         verifyStoragePermissions(HomeActivity.this, Manifest.permission.CALL_PHONE);
         verifyStoragePermissions(HomeActivity.this, Manifest.permission.READ_CALL_LOG);
         verifyStoragePermissions(HomeActivity.this, Manifest.permission.WRITE_CALL_LOG);
+        verifyStoragePermissions(HomeActivity.this, Manifest.permission.READ_SMS);
         mPref = getSharedPreferences("config",MODE_PRIVATE);
 
         startService(new Intent(HomeActivity.this, LocationService.class));
@@ -68,10 +69,18 @@ public class HomeActivity extends BaseActivity {
                         //进入高级工具页面
                         enterTargetActivity(HomeActivity.this,AToolsActivity.class);
                         break;
-                    case 6:break;
-                    case 5:break;
+                    case 6:
+                        enterTargetActivity(HomeActivity.this,CleanCacheActivity.class);
+                        break;
+                    case 5:
+                        //进入手机杀毒页面
+                        enterTargetActivity(HomeActivity.this,AntivirusActivity.class);
+                        break;
                     case 4:break;
-                    case 3:break;
+                    case 3:
+                        //进入软件管理页面
+                        enterTargetActivity(HomeActivity.this,TaskManagerActivity.class);
+                        break;
                     case 2:
                         //进入软件管理页面
                         enterTargetActivity(HomeActivity.this,AppManagerActivity.class);

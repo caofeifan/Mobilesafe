@@ -51,5 +51,12 @@
         cff:currentStyle=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <com.cff.mobilesafe.view.SettingItemView
+        android:id="@+id/sv_watch_dog"
+        cff:title="看门狗设置"
+        cff:desc_on="看门狗开启"
+        cff:desc_off="看门狗已关闭"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

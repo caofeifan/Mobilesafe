@@ -2,6 +2,10 @@ package com.cff.mobilesafe.utils;
 
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -42,6 +46,46 @@ public class CommonUtil {
             e.printStackTrace();
         }
         //无法加密
+        return null;
+
+    }
+
+    /**
+     * 获取文件的MD5值
+     * @param sourceDir
+     * @return
+     */
+    public static String getFileMD5(String sourceDir) {
+        File file = new File(sourceDir);
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len = -1;
+            //数字摘要
+            MessageDigest messageDigest = MessageDigest.getInstance("md5");
+            while ((len = fis.read(buffer)) != -1){
+                messageDigest.update(buffer,0,len);
+            }
+            StringBuffer sb = new StringBuffer();
+            //对字符串加密，返回字节数组
+            byte[] result = messageDigest.digest();
+            for (byte b : result){
+                int number = b & 0xff;
+                String hex = Integer.toHexString(number);
+                if (hex.length() ==1){
+                    sb.append("0"+hex);
+                }else {
+                    sb.append(hex);
+                }
+            }
+            return sb.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
 
     }

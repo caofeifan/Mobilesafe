@@ -1,5 +1,6 @@
 package com.cff.mobilesafe.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,13 +28,28 @@ public class BlackNumberDao {
      * @param number 号码
      * @param mode   模式
      */
-    public void add(String number, String mode) {
+    public boolean add(String number, String mode) {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("number", number);
+        values.put("mode", mode);
+        long rowId = database.insert("blacknumber", null, values);
+        if(rowId == -1){
+            return false;
+        }
+        return true;
     }
 
     /**
      * @param number
      */
-    public void delete(String number) {
+    public boolean delete(String number) {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        int rowCounts = database.delete("blacknumber", "number = ?", new String[]{number});
+        if (rowCounts == 0){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -41,8 +57,15 @@ public class BlackNumberDao {
      *
      * @param number
      */
-    public boolean changeNumberMode(String number) {
-        return false;
+    public boolean changeNumberMode(String number,String newMode) {
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("mode",newMode);
+        int rowCount = database.update("blackname", values, "number = ?", new String[]{number});
+        if (rowCount == 0) {
+            return false;
+        }
+        return true;
     }
 
     public BlackNumberInfo find(String number) {
@@ -103,5 +126,6 @@ public class BlackNumberDao {
         writableDatabase.execSQL("insert into blacknumber(name,number,mode) values('韩晓羽','18392565390','短信屏蔽')",
                 new String[]{});
     }
+
 
 }

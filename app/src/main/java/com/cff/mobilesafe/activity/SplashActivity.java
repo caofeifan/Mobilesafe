@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -24,12 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
+import com.cff.mobilesafe.dao.AntivirusDao;
 import com.cff.mobilesafe.domain.UpdateInfo;
+import com.cff.mobilesafe.domain.VirusInfo;
 import com.cff.mobilesafe.domain.test;
 import com.cff.mobilesafe.service.RocketService;
 import com.cff.mobilesafe.utils.JsonUtil;
+import com.cff.mobilesafe.utils.MyDatabaseHelper;
+import com.cff.mobilesafe.utils.OkHttpClientManager;
 import com.cff.mobilesafe.utils.OkHttpUtil;
 import com.cff.mobilesafe.utils.StreamUtil;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +43,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Request;
 
 public class SplashActivity extends BaseActivity {
     private String TAG = this.getClass().getSimpleName();
@@ -118,7 +128,23 @@ public class SplashActivity extends BaseActivity {
         boolean autoUpdate = mPref.getBoolean("auto_update",true);
         Log.i(TAG, "onCreate: autoUpdate = "+ autoUpdate);
         verifyStoragePermissions(SplashActivity.this,Manifest.permission.PROCESS_OUTGOING_CALLS);
+        /**
+         * 创建快捷方式
+         */
+        createShortcut();
+        /**
+         * 复制数据库到指定目录
+         */
 
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this,"antivirus.db");
+        dbHelper.readToPath("antivirus.db");
+
+
+        /**
+         * 更新病毒数据库
+         */
+    //    updateVirus("http://10.0.2.2:8080/virus.json");
+        verifyStoragePermissions(SplashActivity.this,Manifest.permission.PROCESS_OUTGOING_CALLS);
         if (autoUpdate){
             /**
              * 获取应用版本号
@@ -131,6 +157,64 @@ public class SplashActivity extends BaseActivity {
         AlphaAnimation anim = new AlphaAnimation(0.3f,1f);
         anim.setDuration(1000);
         rlRoot.startAnimation(anim);
+    }
+
+    /**
+     * 更新病毒数据库
+     */
+    private void updateVirus(String url) {
+        //将服务器中的病毒特征码添加到数据库中
+        OkHttpClientManager.getAsyn(url, new OkHttpClientManager.ResultCallback<List<VirusInfo>>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                System.out.println("--------------"+e.toString());
+            }
+
+            @Override
+            public void onResponse(List<VirusInfo> list) {
+                /**
+                 * 插入到数据库
+                 */
+                List<Long> rows = AntivirusDao.addVirus(SplashActivity.this,list);
+                if (rows != null){
+                    Toast.makeText(SplashActivity.this,"数据库已更新！！！="+rows.size(),Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+    }
+
+    /**
+     * 创建快捷方式
+     */
+    private void createShortcut() {
+        Intent intent = new Intent();
+        /**
+         *true 表示可以重复创建快捷方式
+         * false 不可以重复创建
+         */
+        intent.putExtra("duplicate",false);
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        /**
+         * 干什么
+         * 叫什么
+         * 长什么样子
+         */
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME,"手机卫士");
+        /**
+         * 不能显示意图，
+         * 必须使用隐式意图
+         */
+        Intent shortcut_intent = new Intent();
+
+        shortcut_intent.setAction("com.cff.mobilesafe.HomeActivity");
+        shortcut_intent.addCategory("android.intent.category.DEFAULT");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT,shortcut_intent);
+        sendBroadcast(intent);
+
     }
 
     /**

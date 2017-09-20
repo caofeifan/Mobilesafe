@@ -15,6 +15,8 @@ import com.cff.mobilesafe.R;
 import com.cff.mobilesafe.service.AddressService;
 import com.cff.mobilesafe.service.CallSafeService;
 import com.cff.mobilesafe.service.RocketService;
+import com.cff.mobilesafe.service.WatchDogService;
+import com.cff.mobilesafe.utils.SystemInfoUitl;
 import com.cff.mobilesafe.view.SettingClickView;
 import com.cff.mobilesafe.view.SettingItemView;
 
@@ -39,6 +41,8 @@ public class SettingActivity extends BaseActivity {
     SettingClickView scvSocket;
     @BindView(R.id.sivBlackNum)
     SettingItemView sivBlackNumberInfo;
+    @BindView(R.id.sv_watch_dog)
+    SettingItemView sv_watch_dog;
 
 
 
@@ -57,6 +61,7 @@ public class SettingActivity extends BaseActivity {
         initAddressLocation();
         initSocket();
         initBlackNumInfo();
+        initWatchDogInfo();
     }
 
     /**
@@ -112,8 +117,8 @@ public class SettingActivity extends BaseActivity {
         });
     }
     /**
-     * 初始化黑名单显示
-     */
+         * 初始化黑名单显示
+         */
     public void initBlackNumInfo(){
         boolean showBlackNumberInfo = mPref.getBoolean("show_blackNumberInfo", true);
         if (showBlackNumberInfo) {
@@ -240,6 +245,49 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
             default:break;
+        }
+    }
+
+    /**
+     * 初始化看门狗
+     */
+    public void initWatchDogInfo(){
+
+        boolean serviceRunning = SystemInfoUitl.isServiceRunning(SettingActivity.this, "com.cff.mobilesafe.service.WatchDogService");
+        System.out.println("---------->"+serviceRunning);
+        if (serviceRunning) {
+            sv_watch_dog.setChecked(true);
+        } else {
+            sv_watch_dog.setChecked(false);
+        }
+        sv_watch_dog.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (sv_watch_dog.isChecked()){
+                    sv_watch_dog.setChecked(false);
+                    stopService(new Intent(SettingActivity.this, WatchDogService.class));
+                    mPref.edit().putBoolean("show_watchDog",false).commit();
+                }else {
+                    sv_watch_dog.setChecked(true);
+                    mPref.edit().putBoolean("show_watchDog",true).commit();
+                    startService(new Intent(SettingActivity.this, WatchDogService.class));
+
+                }
+            }
+        });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean serviceRunning = SystemInfoUitl.isServiceRunning(SettingActivity.this, "com.cff.mobilesafe.service.WatchDogService");
+        System.out.println("---------->"+serviceRunning);
+        if (serviceRunning) {
+            sv_watch_dog.setChecked(true);
+        } else {
+            sv_watch_dog.setChecked(false);
         }
     }
 }

@@ -11,6 +11,8 @@ import android.text.format.Formatter;
 import android.util.Log;
 
 import com.cff.mobilesafe.domain.AppInfo;
+import com.cff.mobilesafe.domain.AppLock;
+import com.cff.mobilesafe.utils.ImageUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class AppInfos {
             String sourceDir = packageInfo.applicationInfo.sourceDir;
             File file = new File(sourceDir);
             long apkSize = file.length();
+
+
             //判断系统APp or 用户APP
             int flags = packageInfo.applicationInfo.flags;
             if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0){
@@ -63,18 +67,39 @@ public class AppInfos {
                 //用户app
                 appInfo.setRom(false);
             }
-            int width = icon.getIntrinsicWidth();
-            int height = icon.getIntrinsicHeight();
-            Log.i(TAG, "getAppInfos: width:==="+width+"height:==="+height);
             appInfo.setIcon(icon);
             appInfo.setApkName(apkName);
             appInfo.setApkPackageName(packageName);
             appInfo.setApkSize(apkSize);
             appInfos.add(appInfo);
-            Log.i(TAG, "getAppInfos: APP name"+ apkName);
-            Log.i(TAG, "getAppInfos: APP packageName"+ packageName);
-            Log.i(TAG, "getAppInfos: APP apkSize"+ apkSize);
         }
         return appInfos;
+    }
+
+    /**
+     * 通过包名获取到AppLock
+     * @param context
+     * @param packageName
+     * @param isLock
+     * @return
+     */
+    public static AppLock getAppLockByPackageName(Context context, String packageName,int isLock){
+        PackageManager packageManager = context.getPackageManager();
+        Boolean isLocked = false;
+        if (isLock == 1){
+            isLocked = true;
+        }
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
+            //获取app信息
+            Drawable icon = packageInfo.applicationInfo.loadIcon(packageManager);
+            String appName = packageInfo.applicationInfo.loadLabel(packageManager).toString();
+
+            return new AppLock(packageName,appName, isLocked, ImageUtils.drawableToBitmap(icon));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }

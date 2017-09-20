@@ -50,10 +50,12 @@ public class CallSafeService extends Service {
         super.onCreate();
         Log.i(TAG, "onCreate: -------------------------");
 
+        //给系统服务添加监听，监听来电
         TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         MyPhoneStateListener listener = new MyPhoneStateListener();
         tm.listen(listener,PhoneStateListener.LISTEN_CALL_STATE);
 
+        //注册,拦截短信Receiver
         IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         filter.setPriority(Integer.MAX_VALUE);
         innerReceiver = new InnerReceiver();

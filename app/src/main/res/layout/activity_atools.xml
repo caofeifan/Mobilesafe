@@ -20,12 +20,26 @@
     android:clickable="true"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="短信备份"
+        android:textColor="@color/black"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:gravity="center_vertical"
+        android:onClick="backUpSMS"
+        android:clickable="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="软件锁"
+        android:textColor="@color/black"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:gravity="center_vertical"
+        android:onClick="appLock"
+        android:clickable="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
 </LinearLayout>

@@ -24,6 +24,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         super(context, "address.db",null, 1);
         this.context = context;
     }
+    public MyDatabaseHelper(Context context,String name) {
+        super(context, name,null, 1);
+        this.context = context;
+    }
 
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -34,6 +38,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table dict(id Integer primary key autoincrement, word,detail)");
         db.execSQL("create table blacknumber(_id integer primary key autoincrement,name varchar(20),number varchar(20),mode varchar(2))");
+        db.execSQL("create table applock(_id integer primary key autoincrement, packagename varchar(50),lock integer default 0)");
     }
 
     @Override
@@ -41,15 +46,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void readToPath(){
-        File file = new File("data/data/com.cff.mobilesafe/databases","address.db");
+    public void readToPath(String fileName){
+        File file = new File("data/data/com.cff.mobilesafe/databases",fileName);
         if (!file.exists()){
             Log.i(TAG, "readToPath: 数据库文件不存在");
             InputStream in = null;
             FileOutputStream fos = null;
             try {
                 fos = new FileOutputStream(file);
-                in = context.getAssets().open("address.db");
+                in = context.getAssets().open(fileName);
                 byte[] buff = new byte[1024];
                 int len = 0;
                 while ((len = in.read(buff)) != -1){
@@ -83,7 +88,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void rawQuery(){
+/*    public void rawQuery(SQLiteDatabase db){
 
-    }
+    }*/
 }

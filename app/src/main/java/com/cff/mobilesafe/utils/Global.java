@@ -7,4 +7,5 @@ package com.cff.mobilesafe.utils;
 
 public class Global {
     public static final int APP_ICON_WIDTH = 144;
+    public static final String SEED = String.valueOf(123);
 }

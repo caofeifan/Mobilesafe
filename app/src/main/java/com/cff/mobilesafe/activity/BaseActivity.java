@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.cff.mobilesafe.R;
 
+import butterknife.ButterKnife;
+
 import static android.R.attr.permission;
 import static android.R.attr.targetSdkVersion;
 
@@ -33,7 +35,9 @@ public class BaseActivity extends AppCompatActivity {
             Manifest.permission.SYSTEM_ALERT_WINDOW,
             Manifest.permission.CALL_PHONE,
     Manifest.permission.READ_CALL_LOG,
-    Manifest.permission.WRITE_CALL_LOG};
+    Manifest.permission.WRITE_CALL_LOG,
+    Manifest.permission.READ_SMS,
+    Manifest.permission.DELETE_CACHE_FILES};
 
     public SharedPreferences mPref;
 

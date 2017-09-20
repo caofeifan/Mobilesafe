@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cff.mobilesafe">
+    <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
 
     <!-- 使用gradle后，版本信息在gradle中修改 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <!-- GSP定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,10 +20,15 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 振动器 -->
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+    <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
 
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+
 
     <!-- 获取系统窗口权限 -->
     <!-- 去电显示 -->
@@ -34,11 +41,16 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="com.cff.mobilesafe.SplashActivity" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.HomeActivity">
+            <intent-filter>
+                <action android:name="com.cff.mobilesafe.HomeActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.LostFindActivity" />
@@ -53,6 +65,12 @@
         <activity
             android:name=".activity.DragViewActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".activity.BackgroundActivity" />
+        <activity android:name=".activity.CallSafeActivity" />
+        <activity android:name=".activity.AppManagerActivity" />
+        <activity android:name=".activity.TaskManagerActivity" />
+        <activity android:name=".activity.AntivirusActivity" />
+        <activity android:name=".activity.AppLockActivity" />
 
         <!-- 开启启动 -->
         <receiver android:name=".receiver.BootCompleteReceiver">
@@ -78,6 +96,22 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+        <!-- 小部件provider -->
+        <receiver android:name=".receiver.MyAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+        <!-- 清理所有进程 -->
+        <receiver android:name=".receiver.KillProcessAll">
+            <intent-filter>
+                <action android:name="com.cff.mobilesafe.killProcessAll" />
+            </intent-filter>
+        </receiver>
 
         <!--
         <receiver android:name=".receiver.OutCallReceiver">
@@ -94,10 +128,14 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".service.CallSafeService" />
+        <!-- 清理进程的服务 -->
+        <service android:name=".service.KillProcessWidgetService" />
+        <service android:name=".service.WatchDogService" />
 
-        <activity android:name=".activity.BackgroundActivity" />
-        <activity android:name=".activity.CallSafeActivity" />
-        <activity android:name=".activity.AppManagerActivity"></activity>
+        <activity
+            android:name=".activity.SetPwdActivity"
+            android:launchMode="singleInstance"></activity>
+        <activity android:name=".activity.CleanCacheActivity"></activity>
     </application>
 
 </manifest>
